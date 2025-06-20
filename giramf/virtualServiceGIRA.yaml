@@ -1,0 +1,59 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: service-gira
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - mygateway
+  http:
+  - match:
+    - uri:
+        prefix: /v1/api/appel
+    - uri:
+        prefix: /v1/api/avis
+    - uri:
+        prefix: /v1/api/mise
+    - uri:
+        prefix: /v1/api/moratoire
+    - uri:
+        prefix: /v1/api/contrat
+    - uri:
+        prefix: /v1/api/demande
+    - uri:
+        prefix: /v1/api/encaissement
+    - uri:
+        prefix: /v1/api/exoneration
+    - uri:
+        prefix: /v1/api/facturation
+    - uri:
+        prefix: /v1/api/compte
+    - uri:
+        prefix: /v1/api/locataires
+    - uri:
+        prefix: /v1/api/charges
+    - uri:
+        prefix: /v1/api/commodite 
+    - uri:
+        prefix: /v1/api/details   
+    - uri:
+        prefix: /v1/api/devise 
+    - uri:
+        prefix: /v1/api/niveau 
+    - uri:
+        prefix: /v1/api/param 
+    - uri:
+        prefix: /v1/api/piece 
+    - uri:
+        prefix: /v1/api/type 
+    - uri:
+        prefix: /v1/api/patrimoines
+    - uri:
+        prefix: /v1/api/sortie       
+             
+    route:
+    - destination:
+        host: service-gira.default.svc.cluster.local
+        port:
+          number: 8989

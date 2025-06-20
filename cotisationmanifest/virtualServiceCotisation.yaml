@@ -1,0 +1,87 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: cotisation-backend
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - mygateway
+  http:
+  - match:
+    - uri:
+        prefix: /v1/api/avis-de-debits
+    - uri:
+        prefix: /v1/api/contraintes
+    - uri:
+        prefix: /v1/api/mise-en-demeures
+    - uri:
+        prefix: /v1/api/moratoires
+    - uri:
+        prefix: /v1/api/comparaison-dates
+    - uri:
+        prefix: /v1/api/entites
+    - uri:
+        prefix: /v1/api/unicite-obligations
+    - uri:
+        prefix: /v1/api/appel-collectif
+    - uri:
+        prefix: /v1/api/compte-employeurs
+    - uri:
+        prefix: /v1/api/compte-indiv-employes
+    - uri:
+        prefix: /v1/dmz
+    - uri:
+        prefix: /v1/api/employe-non-immatricules
+    - uri:
+        prefix: /v1/api/facturations
+    - uri:
+        prefix: /v1/api/taxation-doffices    
+    - uri:
+        prefix: /v1/api/admission-en-non-valeurs    
+    - uri:
+        prefix: /v1/api/compense-employeurs    
+    - uri:
+        prefix: /v1/api/exoneration-majorations
+    - uri:
+        prefix: /v1/api/remises-gracieuses
+    - uri:
+        prefix: /v1/api/code-operation
+    - uri:
+        prefix: /v1/api/taux-cotisation
+    - uri:
+        prefix: /v1/api/motif-controle
+    - uri:
+        prefix: /v1/api/param-declaration
+    - uri:
+        prefix: /v1/api/param-etat-contentieux
+    - uri:
+        prefix: /v1/api/param-periodicite
+    - uri:
+        prefix: /v1/api/param-simig
+    - uri:
+        prefix: /v1/api/param-tele-declaration
+    - uri:
+        prefix: /v1/api/param-type-contentieux
+    - uri:
+        prefix: /v1/api/param-type-sim
+    - uri:
+        prefix: /v1/api/type-controleurs
+    - uri:
+        prefix: /v1/api/controle-effectues
+    - uri:
+        prefix: /v1/api/controles
+    - uri:
+        prefix: /v1/api/controleurs    
+    - uri:
+        prefix: /v1/api/avoirs-employeurs    
+    - uri:
+        prefix: /v1/api/encaissements
+    - uri:
+        prefix: /v1/api/majoration-encaissements    
+       
+    route:
+    - destination:
+        host: service-cotisation.default.svc.cluster.local
+        port:
+          number: 8082

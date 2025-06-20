@@ -1,0 +1,461 @@
+==========================================================bitbucked====================================
+ATBBc3xrB6UdzLbzwjW98Hed9VZ6CA631C4A
+=======================================================================================================
+
+name = "service-paramglob", url = "http://service-paramglob.default.svc.cluster.local"
+
+======================================================================CREATE SECRET ON K8S======================================
+
+    • Création d’un secret pour Docker par exemple : 
+
+kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=<usernamedocker> --docker-password=<passworddocker> --docker-email=<@email_utilise_dans _docker>
+
+Une fois ok on aura ce message
+
+secret/regcred created
+
+Pour obtenir le secret qu’on a créé dans un format lisible on saisit la commande suivante : 
+
+kubectl get secret regcred --output=yaml 
+
+apiVersion: v1
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOnsidXNlcm5hbWUiOiJicmltczE1IiwicGFzc3dvcmQiOiJkaW9wQGRpb3AiLCJlbWFpbCI6ImlicmFoaW1hZGlvcDE3MTBAZ21haWwuY29tIiwiYXV0aCI6IlluSnBiWE14TlRwa2FXOXdRR1JwYjNBPSJ9fX0=
+kind: Secret
+metadata:
+  creationTimestamp: "2023-01-24T13:46:25Z"
+  name: regcred
+  namespace: default
+  resourceVersion: "614212"
+  uid: c0ca04e7-da5b-44c1-aca1-7e79254c2ab9
+type: kubernetes.io/dockerconfigjson
+
+Apres on peut enlever le uid et la resourceVersion puis copier le reste dans fichier avec une extention yaml et le sauvegarder quelque part 
+
+
+
+================================================================================================================================
+
+
+
+======================================SET IPADRESS========================
+kubectl patch svc istio-ingressgateway --namespace istio-system --patch '{"spec": { "loadBalancerIP": "192.168.2.35" }}'
+
+===========================================================================
+==============================ISTIO================
+export PATH=$PWD/bin:$PATH
+===================================================
+
+=================================================IP 158============================== 
+158.69.27.218
+G64fPO1qhoRIeMYL
+===================================================================================== 
+
+install oracle with docker 
+
+docker run --name dbcnssprod -p 1521:1521 -e ORACLE_PWD=Afrilins@2023  -v oracle-data:/opt/oracle/oradataprod container-registry.oracle.com/database/express:21.3.0-xe
+=====================================================================================
+
+===========================================docker postgres===========================
+exporter 
+ sudo docker exec -t postgres_brazza pg_dump -c -U keycloak -d keycloak > dump_$(date +%Y-%m-%d_%H_%M_%S).sql 
+
+importer 
+
+sudo cat dump_2023-04-26_20_02_39.sql | docker exec -i postgres_brazza psql -U keycloak -d keycloak
+
+
+
+kubeadm join 192.168.1.23:6443 --token y1x6x8.ag52cuihj934t3hb \
+        --discovery-token-ca-cert-hash sha256:55b1738c8cfc88b2f0d753e515f8f054099073ec8a02edc0b4c92cb50d24131
+
+
+
+rm /etc/containerd/config.toml
+systemctl restart containerd
+
+
+
+===================================================fixer une @ip 20.04=====================================
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s3:
+      dhcp4: no
+      addresses: [192.168.0.123/24]
+      gateway4: 192.168.1.1
+      nameservers:
+        addresses: [8.8.8.8,8.8.4.4]
+
+
+========================================CHNAGER DE VERSION JAVA DEJA INSTALLE===================================
+sudo update-alternatives --config java
+=================================================================================================================
+
+===============================================================SOS ORACLE====================================================
+
+=============================================================================================================================
+
+
+
+=========================================================================mise en place dun cluster k8s sur ubuntu 20.04==========================================================
+
+================================1. fixer l@IP sudo nano /etc/netplan/
+
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s3:
+      dhcp4: no
+      addresses: [192.168.0.123/24]
+      gateway4: 192.168.1.1
+      nameservers:
+        addresses: [8.8.8.8,8.8.4.4]
+        
+================================================================================================
+
+
+
+
+1.curl -fsSL https://get.docker.com | sh;
+3.
+sudo groupadd -g 500000 dockremap && 
+sudo groupadd -g 501000 dockremap-user && 
+sudo useradd -u 500000 -g dockremap -s /bin/false dockremap && 
+sudo useradd -u 501000 -g dockremap-user -s /bin/false dockremap-user
+
+4.
+sudo echo "dockremap:500000:65536" >> sudo /etc/subuid && 
+sudo echo "dockremap:500000:65536" >> sudo /etc/subgid
+
+
+
+echo "
+  {
+   \"userns-remap\": \"default\"
+  }
+" > sudo /etc/docker/daemon.json
+
+6.sudo systemctl daemon-reload && sudo systemctl restart docker
+
+7. desactiver le swap 
+8.
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+9.en mode root sudo -i
+sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+10. 
+sudo add-apt-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+
+
+==============================================================
+désactivation du swap
+
+
+
+swapoff -a
+vim /etc/fstab
+
+
+
+
+mise en place du dépôt apt :
+
+
+apt-get update && apt-get install -y apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+sudo add-apt-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+
+
+
+
+installation des binaires kubernetes :
+
+
+sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
+systemctl enable kubelet
+
+
+
+- kubeadm : installation du cluster
+- kubelet : service qui tourne sur les machines (lancement pods...)
+- kubectl : permet la communication avec le cluster
+==============================================================
+
+=========================================
+quan ton oublie notre notre comd dinitialisation : 
+kubeadm join 192.168.2.34:6443 --token katghq.n680e55inoliqoap --discovery-token-ca-cert-hash sha256:56a315c4ae30fa4766f8be09be6068945089e1639b344835461557daa42a2144 
+
+=========================================
+
+=====================================================================ORACLE==========================
+alter session set "_ORACLE_SCRIPT"=true;  
+
+
+
+
+
+
+
+CREATE USER  admine IDENTIFIED BY "admine";
+GRANT ALL PRIVILEGES TO admine;
+CREATE USER  parametrageglobal IDENTIFIED BY "parametrageglobal";
+GRANT ALL PRIVILEGES TO parametrageglobal;
+
+CREATE USER  immatriculation IDENTIFIED BY "immatriculation";
+GRANT ALL PRIVILEGES TO immatriculation;
+
+CREATE USER  cotisation IDENTIFIED BY "cotisation";
+GRANT ALL PRIVILEGES TO cotisation;
+
+CREATE USER  frontoffice IDENTIFIED BY "frontoffice";
+GRANT ALL PRIVILEGES TO frontoffice;
+
+CREATE USER  tresorerie IDENTIFIED BY "tresorerie";
+GRANT ALL PRIVILEGES TO tresorerie;
+
+CREATE USER  comptabilite IDENTIFIED BY "comptabilite";
+GRANT ALL PRIVILEGES TO comptabilite;
+
+CREATE USER  mandat IDENTIFIED BY "mandat";
+GRANT ALL PRIVILEGES TO mandat;
+
+CREATE USER  risquesprofessionnels IDENTIFIED BY "risquesprofessionnels";
+GRANT ALL PRIVILEGES TO risquesprofessionnels;
+
+CREATE USER  prestationsfamiliales IDENTIFIED BY "prestationsfamiliales";
+GRANT ALL PRIVILEGES TO prestationsfamiliales;
+
+CREATE USER  aprostockimmo IDENTIFIED BY "aprostockimmo";
+GRANT ALL PRIVILEGES TO aprostockimmo;
+
+CREATE USER  sirh IDENTIFIED BY "sirh";
+GRANT ALL PRIVILEGES TO sirh;
+
+CREATE USER  pension IDENTIFIED BY "pension";
+GRANT ALL PRIVILEGES TO pension;
+
+CREATE USER  tracaction IDENTIFIED BY "tracaction";
+GRANT ALL PRIVILEGES TO tracaction;
+
+CREATE USER  rapprochement IDENTIFIED BY "rapprochement";
+GRANT ALL PRIVILEGES TO rapprochement;
+
+CREATE USER  etatfinancier IDENTIFIED BY "etatfinancier";
+GRANT ALL PRIVILEGES TO etatfinancier;
+
+CREATE USER  paiementprestation IDENTIFIED BY "paiementprestation";
+GRANT ALL PRIVILEGES TO paiementprestation;
+CREATE USER  gira IDENTIFIED BY "gira";
+GRANT ALL PRIVILEGES TO gira;
+
+
+
+
+
+
+
+
+
+
+
+
+
+drop user cotisation CASCADE;
+drop user immatriculation CASCADE;
+drop user comptabilite CASCADE;
+drop user tresorerie CASCADE;
+drop user immatriculation CASCADE;
+drop user parametrageglobal CASCADE;
+drop user admine CASCADE;
+
+
+
+
+
+
+=========================================PROXMOX AFRILINS===========================
+ https://ns545771.ip-139-99-120.net:8006
+ 
+ ip 139.99.120.24   
+ 
+ mdp : ekUePjdmlXlhRdij
+ 
+ mdp jenkins : 6b54f69f8cf74ce08802a39fd2f884e1
+====================================================================================
+
+
+kubectl create secret generic secretpension --from-literal=username=pension --from-literal=password=pension
+
+
+====================================+GRAILS HEAP SPACE ================================
+
+export JAVA_OPTS="-XX:MaxPermSize=5092m" //you can omit this if u want
+ export GRAILS_OPTS="-server -Xmx5092M -XX:MaxPermSize=5092m -Dfile.encoding=UTF-8"
+=======================================================================================
+
+
+===================================NEW SERVER 2024 ===============================
+54.39.243.220       HeYiF8gYsae0gDum
+
+jenkins afrilins@2024
+==================================================================================
+
+================================================================================================force delete user oracle ==========================================
+
+
+SELECT USERNAME, SID, serial# FROM V$SESSION WHERE USERNAME='ADMINE';
+select sid, serial# , username from v$session;
+
+ALTER SYSTEM KILL SESSION '154, 5512' IMMEDIATE;
+
+
+drop user admine CASCADE;
+drop user cotisation CASCADE;
+drop user immatriculation CASCADE;
+drop user comptabilite CASCADE;
+drop user tresorerie CASCADE;
+drop user immatriculation CASCADE;
+drop user parametrageglobal CASCADE;
+drop user frontoffice CASCADE;
+drop user pension CASCADE;
+drop user gira CASCADE;
+drop user mandat CASCADE;
+drop user paiementprestation CASCADE;
+drop user aprostockimmo CASCADE;
+drop user prestationsfamiliales CASCADE;
+drop user risquesprofessionnels CASCADE;
+drop user sirh CASCADE;
+drop user etatfinancier CASCADE;
+drop user rapprochement CASCADE;
+
+
+
+
+===================================================================================================================================================================
+
+
+
+
+LISTER LES QUEUX KAFKA
+
+
+docker exec -it kafka /opt/kafka/bin/kafka-topics.sh  --list --zookeeper zookeeper:2181
+
+
+
+===============================================+STOP JENKINS ==================
+ sudo systemctl stop jenkins 
+ ============================================
+
+
+
+
+ jenins 
+ ibrahima.diop    passer@passer  
+
+
+ news branch sur le 158 
+ top du 54
+
+
+
+ ====================================================================================KILL PORT ANGULAR JAVA========================================================
+ sudo kill $(sudo lsof -t -i:4200)
+ 8888
+
+ ==================================================================================================================================================================
+
+
+ ===================================================================++PROBLEME VERSION ANGULAR======================================================
+ sudo npm cache clean -f
+sudo npm install -g n
+sudo n stable
+
+==================================================================================
+
+
+
+==================================================================================WEBCLIENT KUBERNETES==================================================
+1. creer la classe config 
+package sn.afrilins.net.administration.config;
+
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
+
+
+@Configuration
+public class WebClientConf {
+
+
+    @Bean
+    @LoadBalanced
+    public WebClient.Builder getWebClientBuilder() {
+        return WebClient
+                .builder();
+             //   .defaultHeader("Authorization", "Bearer " + KeycloakConfig.getInstance().tokenManager().getAccessToken().getToken());
+
+    }
+
+    }
+2. 
+@Service
+@Transactional
+userservicecentreimpl
+
+@Autowired
+   private  WebClient.Builder builder;
+
+   3. 
+       String url = "http://parametrageGlobal/v1/api/centre-de-gestions" ;
+  //  WebClient webClient = WebClient.create("http://paramglob-backend/v1/api/centre-de-gestions");
+
+   // @Override
+    @Transactional(readOnly = true)
+    public ResponseEntity<Flux<CentreDeGestionUtiliDTO>> findUtiliCentre2(String ids) {
+
+        String parametres = "";
+        log.info("usernam ===========>{}",ids);
+        List<String> codes = utilisateurCentreRepository.findUtiliCodesCentre(ids);
+
+        for(String code: codes){
+            if(code.equals(codes.get(codes.size() - 1))){
+                parametres = parametres + "ids="+code;
+            }
+            else{
+                parametres = parametres + "ids="+code+"&";
+            }
+
+        }
+        Flux<CentreDeGestionUtiliDTO> listcentre = builder
+                .build()
+                .get()
+                .uri(url+"/ids?"+parametres)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .header("Authorization", "Bearer " + KeycloakConfig.getInstance().tokenManager().getAccessToken().getToken())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(CentreDeGestionUtiliDTO.class);
+
+            return ResponseEntity.ok(listcentre);
+
+    }
+
+    
+
+========================================================================================================================================================
+
+
+=========================================PROBLEME CREATION VIRTUALSERVICE==============================================
+
+Error from server (InternalError): error when creating "virtualServiceRisqPro.yaml": Internal error occurred: failed calling webhook "validation.istio.io": failed to call webhook:
+ Post "https://istiod.istio-system.svc:443/validate?timeout=10s": context deadline exceeded
+
+kubectl delete validatingwebhookconfiguration istiod-default-validator 
+
+
+
+=======================================================================================================================

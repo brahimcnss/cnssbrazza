@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asi-backend
+  labels:
+    app: asi-backend
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: asi-backend
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: asi-backend
+        type: backend
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: asi-backend
+          image: brims15/asi:0.0.1-SNAPSHOT
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "2"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 19099
+              protocol: TCP
+          imagePullPolicy: Always
+          env:
+            - name: ORACLEHOSTASI
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-asi
+                  key: default.oracle-instance-host-asi
+            - name: ORACLEPORTASI
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-asi
+                  key: default.oracle-instance-port-asi
+            - name: ORACLEUSERASI
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-asi
+                  key: default.oracle-instance-user-asi
+            - name: ORACLEPASSWORDASI
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-asi
+                  key: password
+            - name: ORACLEHOSTPG
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-parametrageglobal
+                  key: default.oracle-instance-host-pg
+            - name: ORACLEPORTPG
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-parametrageglobal
+                  key: default.oracle-instance-port-pg
+            - name: ORACLEUSERPG
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-parametrageglobal
+                  key: default.oracle-instance-user-pg
+            - name: ORACLEPASSWORDPG
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-paramglobal
+                  key: password  
+            
+            

@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloakafrilins
+  labels:
+    app: keycloakafrilins
+    type: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloakafrilins
+      type: backend
+  template:
+    metadata:
+      labels:
+        app: keycloakafrilins
+        type: backend
+    spec:
+      containers:
+      - name: keycloakafrilins
+        image: quay.io/keycloak/keycloak:21.1.1
+        args: ["start-dev"]   
+        env:
+        - name: KEYCLOAK_ADMIN
+          value: "admin"
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          value: "admin"
+        - name: KC_PROXY
+          value: "edge"
+        - name: POSTGRESHOSTADMIN
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config-admin
+              key: default.postgres-instance-host
+        - name: POSTGRESPORTADMIN
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config-admin
+              key: default.postgres-instance-port
+        - name: POSTGRESUSERADMIN
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config-admin
+              key: default.postgres-instance-user
+        - name: KEYCLOAKUSERADMIN
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config-admin
+              key: default.keycloak-instance-user
+        - name: KEYCLOAKPORTADMIN
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config-admin
+              key: default.keycloak-instance-port
+        - name: POSTGRESPASSWORDADMIN
+          valueFrom:
+            secretKeyRef:
+              name: postgres-instance-password-admin
+              key: password
+        - name: KEYCLOAKPASSWORDADMIN
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-password-admin
+              key: password
+        ports:
+          - name: api
+            containerPort: 8080
+            protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /realms/master
+            port: 8080

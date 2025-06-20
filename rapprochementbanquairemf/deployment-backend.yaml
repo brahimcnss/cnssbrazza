@@ -1,0 +1,147 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rapprochement-backend
+  labels:
+    app: rapprochement-backend
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: rapprochement-backend
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: rapprochement-backend
+        type: backend
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: rapprochement-backend
+          image: brims15/rapprochement:0.0.1-SNAPSHOT
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "2"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 8092
+              protocol: TCP
+          imagePullPolicy: Always
+          env:
+            - name: ORACLEHOSTRAPPROCHEMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-rapprochement
+                  key: default.oracle-instance-host-rapprochement
+            - name: ORACLEPORTRAPPROCHEMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-rapprochement
+                  key: default.oracle-instance-port-rapprochement
+            - name: ORACLEUSERRAPPROCHEMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-rapprochement
+                  key: default.oracle-instance-user-rapprochement
+            - name: ORACLEPASSWORDRAPPROCHEMENT
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-rapprochement
+                  key: password
+
+            - name: ORACLEHOSTCOMPTA
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-comptabilite
+                  key: default.oracle-instance-host-comptabilite
+            - name: ORACLEPORTCOMPTA
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-comptabilite
+                  key: default.oracle-instance-port-comptabilite
+            - name: ORACLEUSERCOMPTA
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-comptabilite
+                  key: default.oracle-instance-user-comptabilite
+            - name: ORACLEPASSWORDCOMPTA
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-comptabilite
+                  key: password 
+            - name: ORACLEHOSTPG
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pg
+                  key: default.oracle-instance-host-pg
+            - name: ORACLEPORTPG
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pg
+                  key: default.oracle-instance-port-pg
+            - name: ORACLEUSERPG
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pg
+                  key: default.oracle-instance-user-pg
+            - name: ORACLEPASSWORDPG
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-pg
+                  key: password
+            - name: ORACLEHOSTTRESORERIE
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tresorerie
+                  key: default.oracle-instance-host-tresorerie
+            - name: ORACLEPORTTRESORERIE
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tresorerie
+                  key: default.oracle-instance-port-tresorerie
+            - name: ORACLEUSERTRESORERIE
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tresorerie
+                  key: default.oracle-instance-user-tresorerie            
+            - name: ORACLEPASSWORDTRESORERIE
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-tresorerie
+                  key: password
+            - name: ORACLEHOSTTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-host-tracaction
+            - name: ORACLEPORTTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-port-tracaction
+            - name: ORACLEUSERTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-user-tracaction
+            - name: ORACLEPASSWORDTRACACTION
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-tracaction
+                  key: password
+      

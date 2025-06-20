@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asi-front-deployment
+  labels:
+    app: asi-front
+    type: front
+spec:
+  selector:
+    matchLabels:
+      app: asi-front
+      type: front
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: asi-front    
+        type: front
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: workernode2
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: asi-front
+          image: brims15/frontasi:1
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "1024Mi"
+              cpu: "300m"
+            limits:
+              memory: "3Gi"
+              cpu: "2"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 80
+              protocol: TCP
+          imagePullPolicy: Always
+          
+          
+          
+          
+      

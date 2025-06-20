@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: etudiant-front-deployment
+  labels:
+    app: etudiant-front
+    type: front
+spec:
+  selector:
+    matchLabels:
+      app: etudiant-front
+      type: front
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: etudiant-front
+        type: front
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: etudiant-front
+          image: brims15/frontgestionetudiant:latest
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "256m"
+            limits:
+              memory: "256Mi"
+              cpu: "528m"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 80
+              protocol: TCP
+          imagePullPolicy: Always
+          
+      

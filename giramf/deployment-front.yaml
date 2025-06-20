@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gira-front-deployment
+  labels:
+    app: gira-front
+    type: front
+spec:
+  selector:
+    matchLabels:
+      app: gira-front
+      type: front
+  replicas: 1  
+  template:
+    metadata:
+      labels:
+        app: gira-front    
+        type: front
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: workernode1
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: gira-front
+          image: brims15/front-gira:1
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "1024Mi"
+              cpu: "300m"
+            limits:
+              memory: "3Gi"
+              cpu: "2"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 80
+              protocol: TCP
+          imagePullPolicy: Always
+          
+          
+          
+          
+      

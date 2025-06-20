@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-asi
+spec:
+  selector:
+    app: asi-backend
+    type: backend
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 19099
+      targetPort: 19099
+      name: http-backend
+    

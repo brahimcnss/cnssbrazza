@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pp-backend
+  labels:
+    app: pp-backend
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: pp-backend
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: pp-backend
+        type: backend
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: pp-backend
+          image: brims15/paiementprestation:0.0.1-SNAPSHOT
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "2"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 8086
+              protocol: TCP
+          imagePullPolicy: Always
+          env:
+            - name: ORACLEHOSTPP
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pp
+                  key: default.oracle-instance-host-pp
+            - name: ORACLEPORTPP
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pp
+                  key: default.oracle-instance-port-pp
+            - name: ORACLEUSERPP
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pp
+                  key: default.oracle-instance-user-pp
+            - name: ORACLEPASSWORDPP
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-pp
+                  key: password      
+            - name: ORACLEHOSTTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-host-tracaction
+            - name: ORACLEPORTTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-port-tracaction
+            - name: ORACLEUSERTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-user-tracaction
+            - name: ORACLEPASSWORDTRACACTION
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-tracaction
+                  key: password
+      

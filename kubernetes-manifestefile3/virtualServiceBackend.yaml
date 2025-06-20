@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: vs-gestionetudiant-backend
+spec:
+  hosts:
+  - service-backend-etudiant.default.svc.cluster.local
+  gateways:
+  - gestionetudiant-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /api
+    route:
+    - destination:
+        host: service-backend-etudiant.default.svc.cluster.local
+        port:
+          number: 8080

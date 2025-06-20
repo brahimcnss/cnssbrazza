@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fo-backend
+  labels:
+    app: fo-backend
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: fo-backend
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: fo-backend
+        type: backend
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: fo-backend
+          image: brims15/frontoffice:0.0.1-SNAPSHOT
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "2"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 8999
+              protocol: TCP
+          imagePullPolicy: Always
+          env:
+            - name: ORACLEHOSTFO
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-fo
+                  key: default.oracle-instance-host-fo
+            - name: ORACLEPORTFO
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-fo
+                  key: default.oracle-instance-port-fo
+            - name: ORACLEUSERFO
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-fo
+                  key: default.oracle-instance-user-fo
+            - name: ORACLEPASSWORDFO
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-fo
+                  key: password
+            - name: ORACLEHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pg
+                  key: default.oracle-instance-host-pg
+            - name: ORACLEPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pg
+                  key: default.oracle-instance-port-pg
+            - name: ORACLEUSER
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pg
+                  key: default.oracle-instance-user-pg
+            - name: ORACLEPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-pg
+                  key: password
+            - name: ORACLEHOSTTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-host-tracaction
+            - name: ORACLEPORTTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-port-tracaction
+            - name: ORACLEUSERTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-user-tracaction
+            - name: ORACLEPASSWORDTRACACTION
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-tracaction
+                  key: password
+            
+      

@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: budget-backend
+  labels:
+    app: budget-backend
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: budget-backend
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: budget-backend
+        type: backend
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: budget-backend
+          image: brims15/budget:0.0.1-SNAPSHOT
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "2"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 9097
+              protocol: TCP
+          imagePullPolicy: Always
+          env:
+            - name: ORACLEHOSTBUDGET
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-budget
+                  key: default.oracle-instance-host-budget
+            - name: ORACLEPORTBUDGET
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-budget
+                  key: default.oracle-instance-port-budget
+            - name: ORACLEUSERBUDGET
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-budget
+                  key: default.oracle-instance-user-budget
+            - name: ORACLEPASSWORDBUDGET
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-budget
+                  key: password
+            - name: ORACLEHOSTPG
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pg
+                  key: default.oracle-instance-host-pg
+            - name: ORACLEPORTPG
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pg
+                  key: default.oracle-instance-port-pg
+            - name: ORACLEUSERPG
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pg
+                  key: default.oracle-instance-user-pg
+            - name: ORACLEPASSWORDPG
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-pg
+                  key: password
+

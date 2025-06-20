@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-dmz
+spec:
+  selector:
+    app: dmz-backend
+    type: backend
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 8520
+      targetPort: 8520
+      name: http-backend
+    

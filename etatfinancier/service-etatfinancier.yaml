@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-etatfinancier
+spec:
+  selector:
+    app: etatfinancier-backend
+    type: backend
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 1999
+      targetPort: 1999
+      name: http-backend
+    

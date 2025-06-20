@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-tb
+  labels:
+    app: front-tb
+    type: front
+spec:
+  selector:
+    matchLabels:
+      app: front-tb
+      type: front
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: front-tb    
+        type: front
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: front-tb
+          image: brims15/front-tableau-de-bord:1
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "1152Mi"
+              cpu: "1124m"
+            limits:
+              memory: "6120Mi"
+              cpu: "4046m"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 80
+              protocol: TCP
+          imagePullPolicy: Always
+          
+          
+      

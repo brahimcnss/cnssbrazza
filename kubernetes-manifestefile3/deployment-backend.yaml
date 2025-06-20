@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: etudiant-back-deployment1
+  labels:
+    app: etudiant-back-deployment1
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: etudiant-backend1
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: etudiant-backend1
+        type: backend
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: etudiant-backend1
+          image: brims15/backendgestionetudiant:latest
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "256m"
+            limits:
+              memory: "256Mi"
+              cpu: "528m"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 8080
+              protocol: TCP
+          imagePullPolicy: Always
+          env:
+            - name: MYSQLHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-configuration
+                  key: default.mysql-instance-host
+            - name: MYSQLPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-configuration
+                  key: default.mysql-instance-port
+            - name: MYSQLUSER
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-configuration
+                  key: default.mysql-instance-user
+            - name: MYSQLPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-instance-password
+                  key: password
+            
+      

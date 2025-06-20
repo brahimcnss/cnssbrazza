@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-budget
+spec:
+  selector:
+    app: budget-backend
+    type: backend
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 9097
+      targetPort: 9097
+      name: http-backend
+    

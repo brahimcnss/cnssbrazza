@@ -1,0 +1,37 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: service-admin
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - mygateway
+  http:
+  - match:    
+    - uri:
+        prefix: "/v1/api/modes"
+    - uri:
+        prefix: "/v1/api/modules"
+    - uri:
+        prefix: "/v1/api/connexion"
+    - uri:
+        prefix: "/v1/api/permissions"
+    - uri:
+        prefix: "/v1/api/rolePolicyPermissions"
+    - uri:
+        prefix: "/v1/api/applications"    
+    - uri:
+        prefix: "/v1/api/poste-utilisateurs"
+    - uri:
+        prefix: "/v1/api/profiles"
+    - uri:
+        prefix: "/v1/api/roles"
+    - uri:
+        prefix: "/v1/api/utilisateur-"           
+    route:
+    - destination:
+        host: service-admin.default.svc.cluster.local    
+        port:
+          number: 1994
+  

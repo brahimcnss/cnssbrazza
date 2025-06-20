@@ -1,0 +1,117 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: service-asi
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - mygateway
+  http:
+  - match:
+    - uri:
+        prefix: /v1/api/budgets 
+    - uri:
+        prefix: /v1/api/engagements 
+    - uri:
+        prefix: /v1/api/poste 
+    - uri:
+        prefix: /v1/api/batiment    
+    - uri:
+        prefix: /v1/api/article 
+    - uri:
+        prefix: /v1/api/agents 
+    - uri:
+        prefix: /v1/api/inventaire 
+    - uri:
+        prefix: /v1/api/fiche 
+    - uri:
+        prefix: /v1/api/fournisseur 
+    - uri:
+        prefix: /v1/api/expression     
+    - uri:
+        prefix: /v1/api/ligne 
+    - uri:
+        prefix: /v1/api/bon_
+    - uri:
+        prefix: /v1/api/categorie 
+    - uri:
+        prefix: /v1/api/centreDeGestion 
+    - uri:
+        prefix: /v1/api/emplacement 
+    - uri:
+        prefix: /v1/api/fa
+    - uri:
+        prefix: /v1/api/magasin 
+    - uri:
+        prefix: /v1/api/motif_rejet 
+    - uri:
+        prefix: /v1/api/niveau 
+    - uri:
+        prefix: /v1/api/taxe 
+    - uri:
+        prefix: /v1/api/unites 
+    - uri:
+        prefix: /v1/api/type 
+    - uri:
+        prefix: /v1/api/urgence     
+    - uri:
+        prefix: /v1/api/mouvement_
+    - uri:
+        prefix: /v1/api/stock_
+    - uri:
+        prefix: /v1/api/abonnement
+    - uri:
+        prefix: /v1/api/delarationContrat 
+    - uri:
+        prefix: /v1/api/EtatContrat 
+    - uri:
+        prefix: /v1/api/liquidation      
+    - uri:
+        prefix: /v1/api/paiement   
+    - uri:
+        prefix: /v1/api/compte 
+    - uri:
+        prefix: /v1/api/amortissement 
+    - uri:
+        prefix: /v1/api/cession 
+    - uri:
+        prefix: /v1/api/etat  
+    - uri:
+        prefix: /v1/api/plan
+    - uri:
+        prefix: /v1/api/revalorisation   
+    - uri:
+        prefix: /v1/api/appel 
+    - uri:
+        prefix: /v1/api/detailSoumission 
+    - uri:
+        prefix: /v1/api/immeuble
+    - uri:
+        prefix: /v1/api/lot 
+    - uri:
+        prefix: /v1/api/membre 
+    - uri:
+        prefix: /v1/api/not 
+    - uri:
+        prefix: /v1/api/soum    
+    - uri:
+        prefix: /v1/api/maj_
+    - uri:
+        prefix: /v1/api/boite
+    - uri:
+        prefix: /v1/api/ca
+    - uri:
+        prefix: /v1/api/ch
+    - uri:
+        prefix: /v1/api/coul
+    - uri:
+        prefix: /v1/api/empl
+    - uri:
+        prefix: /v1/api/vehicule                   
+     
+    route:
+    - destination:
+        host: service-asi.default.svc.cluster.local
+        port:
+          number: 19099

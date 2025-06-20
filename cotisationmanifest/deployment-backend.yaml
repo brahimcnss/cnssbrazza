@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cotisation-backend
+  labels:
+    app: cotisation-backend
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: cotisation-backend
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: cotisation-backend
+        type: backend
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: cotisation-backend
+          image: brims15/cotisation:0.0.1-SNAPSHOT
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "2"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 8082
+              protocol: TCP
+          imagePullPolicy: Always
+          env:
+            - name: ORACLEHOSTIMM
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-imm
+                  key: default.oracle-instance-host-imm
+            - name: ORACLEPORTIMM
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-imm
+                  key: default.oracle-instance-port-imm
+            - name: ORACLEUSERIMM
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-imm
+                  key: default.oracle-instance-user-imm
+            - name: ORACLEPASSWORDIMM
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-imm
+                  key: password      
+            - name: ORACLEHOSTCOTISATION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-cotisation
+                  key: default.oracle-instance-host-cotisation
+            - name: ORACLEPORTCOTISATION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-cotisation
+                  key: default.oracle-instance-port-cotisation
+            - name: ORACLEUSERCOTISATION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-cotisation
+                  key: default.oracle-instance-user-cotisation
+
+            - name: ORACLEHOSTTRESORERIE
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tresorerie
+                  key: default.oracle-instance-host-tresorerie
+            - name: ORACLEPORTTRESORERIE
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tresorerie
+                  key: default.oracle-instance-port-tresorerie
+            - name: ORACLEUSERTRESORERIE
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tresorerie
+                  key: default.oracle-instance-user-tresorerie
+            
+            - name: ORACLEPASSWORDTRESORERIE
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-tresorerie
+                  key: password            
+            - name: ORACLEPASSWORDCOTISATION
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-cotisation
+                  key: password
+            
+      

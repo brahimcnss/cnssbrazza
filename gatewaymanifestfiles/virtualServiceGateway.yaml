@@ -1,0 +1,57 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: gateway-vs
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - mygateway
+  http:
+  - match:   
+    - uri:
+        prefix: /SERVEURDISTRIBUTEUR 
+    - uri:
+        prefix: /ADMINISTRATION
+    - uri:
+        prefix: /PARAMETRAGEGLOBAL     
+    - uri:
+        prefix: /IMMATRICULATION  
+    - uri:
+        prefix: /COTISATION
+    - uri:
+        prefix: /TRESORERIE  
+    - uri:
+        prefix: /FRONTOFFICE   
+    - uri:
+        prefix: /MANDAT-PAIEMENT 
+    - uri:
+        prefix: /COMPTABILITE
+    - uri:
+        prefix: /RAPPROCHEMENT-BANCAIRE
+    - uri:
+        prefix: /ETATFINANCIER
+    - uri:
+        prefix: /SIRH
+    - uri:
+        prefix: /APROSTOCKIMMO
+    - uri:
+        prefix: /RISQUESPROFESSIONNELS
+    - uri:
+        prefix: /PRESTATIONSFAMILIALES
+    - uri:
+        prefix: /PENSION
+    - uri:
+        prefix: /RECRUTEMENT
+    - uri:
+        prefix: /BUDGET
+    - uri:
+        prefix: /GESTIONIMMEUBLERAPPORT    
+                     
+    route:  
+    - destination:
+        host: service-gateway.default.svc.cluster.local
+        port:
+          number: 8888
+    
+    

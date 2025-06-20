@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-tresorerie
+spec:
+  selector:
+    app: tresorerie-backend
+    type: backend
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 8094
+      targetPort: 8094
+      name: http-backend
+    

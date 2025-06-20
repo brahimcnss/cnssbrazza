@@ -1,0 +1,31 @@
+node {
+    def app
+
+    stage('Clone repository') {
+        checkout scm
+    }
+
+    stage('Update GIT') {
+            script {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    withCredentials([usernamePassword(credentialsId: 'SYNAPSTEK_TOKEN', passwordVariable: 'GITHUB_TOKEN', usernameVariable: 'GITHUB_OWNER')]) {
+                        //def encodedPassword = URLEncoder.encode("$GIT_PASSWORD",'UTF-8')
+                        sh "git config user.email contact.synapstek@gmail.com"
+                        sh "git config user.name Synapstek"
+                        //sh "git switch master"
+                        sh "cat deployment-backend.yaml"
+                        sh "sed -i 's+synaptek/gestion-stock.*+synaptek/gestion-stock:${DOCKERTAG}+g' deployment-backend.yaml"
+                        sh "cat deployment-backend.yaml"
+
+                        sh "cat deployment-frontend.yaml"
+                        sh "sed -i 's+synaptek/gestion-stock-frontend.*+synaptek/gestion-stock-frontend:${DOCKERTAG}+g' deployment-frontend.yaml"
+                        sh "cat deployment-frontend.yaml"
+
+                        sh "git add ."
+                        sh "git commit -m 'Done by Jenkins Job changemanifest: ${env.BUILD_NUMBER}'"
+                        sh "git push https://${GITHUB_TOKEN}@github.com/${GITHUB_OWNER}/gestionstock_gitOps.git HEAD:main"
+      }
+    }
+  }
+}
+}

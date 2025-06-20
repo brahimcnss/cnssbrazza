@@ -1,0 +1,55 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: multi-app-ingress
+  namespace: default
+ 
+  
+spec:
+  ingressClassName: nginx
+  rules:
+
+  - host: frontadmin.cnss.cg
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: service-admin-front 
+            port:
+              number: 80  
+      
+  - host: register.cnss.cg
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: service-register
+            port:
+              number: 8761
+  
+  - host: gateway.cnss.cg
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: service-gateway
+            port:
+              number: 8888
+      
+      - path: /ADMINISTRATION
+        pathType: Prefix
+        backend:
+          service:
+            name: service-gateway
+            port: 
+              number: 1994
+
+  
+
+  

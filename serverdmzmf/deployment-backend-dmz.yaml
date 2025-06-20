@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dmz-backend
+  labels:
+    app: dmz-backend
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: dmz-backend
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dmz-backend
+        type: backend
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: dmz-backend
+          image: brims15/serverdmz:0.0.1-SNAPSHOT
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "2"
+           
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 8520
+              protocol: TCP
+          imagePullPolicy: Always
+          env:
+            - name: ORACLEHOSTDMZ
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-dmz
+                  key: default.oracle-instance-host-dmz
+            - name: ORACLEPORTDMZ
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-dmz
+                  key: default.oracle-instance-port-dmz
+            - name: ORACLEUSERDMZ
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-dmz
+                  key: default.oracle-instance-user-dmz
+            - name: ORACLEPASSWORDDMZ
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-dmz
+                  key: password
+                        
+      

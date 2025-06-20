@@ -1,0 +1,28 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: vsrec-backend
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - mygateway
+  http:
+  - match:
+    - uri:
+        prefix: /v1/api/agent 
+    - uri:
+        prefix: /v1/api/appelRecrutement 
+    - uri:
+        prefix: /v1/api/candi
+    - uri:
+        prefix: /v1/api/notation 
+    - uri:
+        prefix: /v1/api/post 
+    - uri:
+        prefix: /v1/api/type 
+    route:
+    - destination:
+        host: service-rec.default.svc.cluster.local
+        port:
+          number: 9098

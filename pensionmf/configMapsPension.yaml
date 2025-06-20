@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  default.oracle-instance-host-pension: 192.168.2.60
+  default.oracle-instance-port-pension: "1521"
+  default.oracle-instance-user-pension: pensio
+kind: ConfigMap
+metadata:
+  name: oracle-config-pension
+  namespace: default

@@ -1,0 +1,53 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: pp-backend
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - mygateway
+  http:
+  - match:
+    - uri:
+        prefix: /v1/api/avance-beneficiaires
+    - uri:
+        prefix: /v1/api/detail-avance-beneficiaires
+    - uri:
+        prefix: /v1/api/controles
+    - uri:
+        prefix: /v1/api/droits    
+    - uri:
+        prefix: /v1/api/type-
+    - uri:
+        prefix: /v1/api/paiements 
+    - uri:
+        prefix: /v1/api/edition- 
+    - uri:
+        prefix: /v1/api/beneficiaire
+    - uri:
+        prefix: /v1/api/brouillard- 
+    - uri:
+        prefix: /v1/api/compte-    
+    - uri:
+        prefix: /v1/api/detail
+    - uri:
+        prefix: /v1/api/generation-  
+    - uri:
+        prefix: /v1/api/preparation- 
+    - uri:
+        prefix: /v1/api/simulation     
+    - uri:
+        prefix: /v1/api/code-operation    
+    - uri:
+        prefix: /v1/api/quotite
+    - uri:
+        prefix: /v1/api/decisions   
+    - uri:
+        prefix: /v1/api/revalorisation-   
+           
+    route:
+    - destination:
+        host: service-pp.default.svc.cluster.local
+        port:
+          number: 8086

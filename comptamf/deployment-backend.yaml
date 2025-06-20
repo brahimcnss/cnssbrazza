@@ -1,0 +1,148 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comptabilite-backend
+  labels:
+    app: comptabilite-backend
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: comptabilite-backend
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: comptabilite-backend
+        type: backend
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: comptabilite-backend
+          image: brims15/comptabilite:0.0.1-SNAPSHOT
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "2Gi"
+              cpu: "4"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 8093
+              protocol: TCP
+          imagePullPolicy: Always
+          env:
+            - name: ORACLEHOSTCOMPTA
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-comptabilite
+                  key: default.oracle-instance-host-comptabilite
+            - name: ORACLEPORTCOMPTA
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-comptabilite
+                  key: default.oracle-instance-port-comptabilite
+            - name: ORACLEUSERCOMPTA
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-comptabilite
+                  key: default.oracle-instance-user-comptabilite
+            - name: ORACLEPASSWORDCOMPTA
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-comptabilite
+                  key: password   
+            - name: ORACLEHOSTPG
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pg
+                  key: default.oracle-instance-host-pg
+            - name: ORACLEPORTPG
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pg
+                  key: default.oracle-instance-port-pg
+            - name: ORACLEUSERPG
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pg
+                  key: default.oracle-instance-user-pg
+            - name: ORACLEPASSWORDPG
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-pg
+                  key: password
+
+            - name: ORACLEHOSTIMM
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-imm
+                  key: default.oracle-instance-host-imm
+            - name: ORACLEPORTIMM
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-imm
+                  key: default.oracle-instance-port-imm
+            - name: ORACLEUSERIMM
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-imm
+                  key: default.oracle-instance-user-imm
+            - name: ORACLEPASSWORDIMM
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-imm
+                  key: password      
+            - name: ORACLEHOSTCOTISATION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-cotisation
+                  key: default.oracle-instance-host-cotisation
+            - name: ORACLEPORTCOTISATION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-cotisation
+                  key: default.oracle-instance-port-cotisation
+            - name: ORACLEUSERCOTISATION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-cotisation
+                  key: default.oracle-instance-user-cotisation            
+            - name: ORACLEPASSWORDCOTISATION
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-cotisation
+                  key: password
+            - name: ORACLEHOSTTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-host-tracaction
+            - name: ORACLEPORTTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-port-tracaction
+            - name: ORACLEUSERTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-user-tracaction
+            - name: ORACLEPASSWORDTRACACTION
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-tracaction
+                  key: password
+            
+      

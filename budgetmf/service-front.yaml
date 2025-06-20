@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-budget-front 
+spec:
+  selector:
+    app: budget-front
+    type: front
+  type: NodePort 
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80 
+      name: http-front
+      nodePort: 31110
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+   

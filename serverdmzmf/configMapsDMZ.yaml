@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  default.oracle-instance-host-dmz: 54.39.243.220
+  default.oracle-instance-port-dmz: "5434"
+  default.oracle-instance-user-dmz: keycloak
+kind: ConfigMap
+metadata:
+  name: oracle-config-dmz
+  namespace: default

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-rapprochement
+spec:
+  selector:
+    app: rapprochement-backend
+    type: backend
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 8092
+      targetPort: 8092
+      name: http-backend
+    

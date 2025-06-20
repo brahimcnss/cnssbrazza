@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-pf
+spec:
+  selector:
+    app: pf-backend
+    type: backend
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 8085
+      targetPort: 8085
+      name: http-backend
+    

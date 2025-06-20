@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: rapprochement-backend
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - mygateway
+  http:
+  - match:
+    - uri:
+        prefix: /v1/api/lotcorrections 
+    - uri:
+        prefix: /v1/api/rapprochementbancaires 
+    - uri:
+        prefix: /v1/api/relevebancaires    
+    route:
+    - destination:
+        host: service-rapprochement.default.svc.cluster.local
+        port:
+          number: 8092

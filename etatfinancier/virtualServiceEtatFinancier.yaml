@@ -1,0 +1,38 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: etatfinancier-vs
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - mygateway
+  http:
+  - match:
+    - uri:
+        prefix: /v1/api/balances 
+    - uri:
+        prefix: /v1/api/balance-tableaus 
+    - uri:
+        prefix: /v1/api/exercices 
+    - uri:
+        prefix: /v1/api/famille-tableaus 
+    - uri:
+        prefix: /v1/api/report 
+    - uri:
+        prefix: /v1/api/rubrique-cr-synthese    
+    - uri:
+        prefix: /v1/api/rubriques 
+    - uri:
+        prefix: /v1/api/rubrique-tableaus 
+    - uri:
+        prefix: /v1/api/synthese-cr-tableaus 
+    - uri:
+        prefix: /v1/api/tableaus 
+    - uri:
+        prefix: /v1/api/type-tableaus       
+    route:
+    - destination:
+        host: service-etatfinancier.default.svc.cluster.local
+        port:
+          number: 1999

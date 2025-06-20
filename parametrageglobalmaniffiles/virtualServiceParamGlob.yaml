@@ -1,0 +1,60 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: parametrageglobal
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - mygateway
+  http:
+  - match:
+    - uri:
+        prefix: "/v1/api/builder-liens"
+    - uri:
+        prefix: "/v1/api/branches"
+    - uri:
+        prefix: "/v1/api/centre-de-gestions"
+    - uri:
+        prefix: "/v1/api/conversiondevises"
+    - uri:
+        prefix: "/v1/api/devises"
+    - uri:
+        prefix: "/v1/api/ent-adres-centre-de-ges"
+    - uri:
+        prefix: "/v1/api/entite-adresses"
+    - uri:
+        prefix: "/v1/api/etablissements"
+    - uri:
+        prefix: "/v1/api/exercices"
+    - uri:
+        prefix: "/v1/api/gestion-globales"
+    - uri:
+        prefix: "/v1/api/gestions"
+    - uri:
+        prefix: "/v1/api/organigrammes"
+    - uri:
+        prefix: "/v1/api/organigramme-utilisateurs"
+    - uri:
+        prefix: "/v1/api/paramcomptas"
+    - uri:
+        prefix: "/v1/api/taux-changes"
+    - uri:
+        prefix: "/v1/api/type-de-centres"
+    - uri:
+        prefix: "/v1/api/type-entite-adresses"
+    - uri:
+        prefix: "/v1/api/type-etablissements"
+    - uri:
+        prefix: "/v1/api/type-organigrammes"
+    - uri:
+        prefix: "/v1/api/type-prestations"
+    - uri:
+        prefix: "/v1/api/utilisateurs"    
+    route:
+    - destination:
+        host: parametrageglobal.default.svc.cluster.local
+        port:
+          number: 1995
+   
+   

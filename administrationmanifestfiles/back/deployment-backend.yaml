@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-backend
+  labels:
+    app: admin-backend
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: admin-backend
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: admin-backend
+        type: backend
+    spec:
+      imagePullSecrets:
+        - name: regcred      
+      containers:
+        - name: admin-backend
+          image: brims15/administration:0.0.1-SNAPSHOT
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "300m"
+            limits:
+              memory: "2Gi"
+              cpu: "3"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 1994
+              protocol: TCP
+          imagePullPolicy: Always      
+ 
+          env:
+            - name: ORACLEHOSTADMIN
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-admin
+                  key: default.oracle-instance-host-admin
+            - name: ORACLEPORTADMIN
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-admin
+                  key: default.oracle-instance-port-admin
+            - name: ORACLEUSERADMIN
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-admin
+                  key: default.oracle-instance-user-admin
+            - name: ORACLEPASSWORDADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-admin
+                  key: password
+            
+     
+      

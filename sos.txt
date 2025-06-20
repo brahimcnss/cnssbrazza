@@ -1,0 +1,100 @@
+===================================================================================KUBERNETES DASHBOARD========================================================================================
+
+
+
+
+Kubernetes Dashboard is a powerful web-based user interface that allows you to manage and monitor your Kubernetes clusters with ease. Whether you're a beginner or an experienced Kubernetes user, this tutorial is designed to provide you with all the information you need to get started.
+
+Le tableau de bord (Dashboard) est une interface web pour Kubernetes. Vous pouvez utiliser ce tableau de bord pour déployer des applications conteneurisées dans un cluster Kubernetes, dépanner votre application conteneurisée et gérer les ressources du cluster. Vous pouvez utiliser le tableau de bord pour obtenir une vue d'ensemble des applications en cours d'exécution dans votre cluster, ainsi que pour créer ou modifier des ressources Kubernetes individuelles. (comme des Deployments, Jobs, DaemonSets, etc). Par exemple, vous pouvez redimensionner un Deployment, lancer une mise à jour progressive, recréer un pod ou déployez de nouvelles applications à l'aide d'un assistant de déploiement.
+
+
+Steps: I followed--
+Step 1: Log in to Ec2 machine using 
+ssh -i key.pem -L 8080:localhost:8080 ec2-user@ec2IP
+
+Step 2: Run the Below command to Enable the Dashboard
+
+kubectl apply -f https://raw.githubusercontent.com/kub...
+
+Step 3: Create users and roles for the dashboard
+vi admin-user-service-account.yaml 
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+
+vi admin-user-cluster-role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+
+#Run below command to create user
+kubectl apply -f admin-user-service-account.yaml -f admin-user-cluster-role-binding.yaml
+
+#output should look like below
+serviceaccount/admin-user created
+clusterrolebinding.rbac.authorization.k8s.io/admin-user created
+
+Ste4: Create Token for user
+kubectl -n kubernetes-dashboard create token admin-user
+#Output should look like
+
+eyJhbGciOiJSUzI1NiIsImtpZCI6Im1nYXFVVFN6ak03MllicC00SHpCNlN4eXJOTXE4azlZRTRTYkptVXV2b28ifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzAwMTMyNjcyLCJpYXQiOjE3MDAxMjkwNzIsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsInNlcnZpY2VhY2NvdW50Ijp7Im5hbWUiOiJhZG1pbi11c2VyIiwidWlkIjoiYzRkMTQwNjEtYWYwZC00MDc1LWE1ODAtOGMzOWQzNmNlNmJhIn19LCJuYmYiOjE3MDAxMjkwNzIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlcm5ldGVzLWRhc2hib2FyZDphZG1pbi11c2VyIn0.EKPYgwcUJucRD0Q8kv6tZb4ybwM9jJTycmnttaDY-PpV_rRYCrV8uymR0v46S9gDJrO8DrH9fQhDCfZmH8b0S683grIAKG0TG8NnvEnay7T0Yz4tlTMGSflX4K66S-biGIUwtt3YqktZNVZpQK7GqT_Y3NRLr_y9-teyV8sPxyull9m2I1sXYW0IQOsqCqOn1N57GA_wcdsXlytQh1nWk3r3ufV1eI8mwLcYSnHzpdHtxgMZD5Xj6VVRGquDaLktXBqrvdo9jr6AaknJ8O6aoHU-pu25VA7-AtkeRCd6PlhM3ZH5TL98woe4IdawFg2srL05fc6odifgA3OqL9NgWw
+
+
+Step 5: Run Below command for port fordwarding
+kubectl port-forward -n kubernetes-dashboard service/kubernetes-dashboard 8080:443
+
+
+
+=====================================================================================METRCIS SERVER=================================================
+
+
+
+
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/high-availability-1.21+.yaml
+
+kubectl edit deploy metrics-server -n kube-system
+
+a modifier 
+
+containers:
+      - args:
+        - --cert-dir=/tmp
+        - --secure-port=4443
+        - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+        - --kubelet-use-node-status-port
+        - --metric-resolution=15s
+        - --kubelet-insecure-tls=true   
+    
+    
+    dnsPolicy: ClusterFirst
+      hostNetwork: true
+      nodeSelector:
+
+        
+
+================================================================================git =================================================
+probleme authentification
+
+ (token generé au niveau de githup)
+
+git remote set-url origin https://<token>@github.com/<username>/<repo>
+exemple 
+git remote set-url origin https://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@github.com/brahimdiop/deploymentcontinu-
+  
+======================================================================================================================================
+
+
+
+

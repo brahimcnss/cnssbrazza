@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workflow-back-deployment
+  labels:
+    app: workflow-back-deployment
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: workflow-backend
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: workflow-backend
+        type: backend
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: workflow-backend
+          image: brims15/workflow:latest
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "256m"
+            limits:
+              memory: "256Mi"
+              cpu: "528m"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 8080
+              protocol: TCP
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRESHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: default.postgres-instance-host
+            - name: POSTGRESPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: default.postgres-instance-port
+            - name: POSTGRESUSER
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: default.postgres-instance-user
+            - name: POSTGRESPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-instance-password
+                  key: POSTGRES_PASSWORD
+      

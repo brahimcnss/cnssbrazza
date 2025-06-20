@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-front-finance 
+spec:
+  selector:
+    app: front-finance
+    type: front
+  type: NodePort 
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80 
+      name: http-front
+      nodePort: 31103
+    
+      
+   
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+   

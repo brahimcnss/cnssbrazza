@@ -1,0 +1,64 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: service-rp
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - mygateway
+  http:
+  - match:
+    - uri:
+        prefix: /v1/api/massages 
+    - uri:
+        prefix: /v1/api/rooms 
+    - uri:
+        prefix: /v1/api/controles    
+    - uri:
+        prefix: /v1/api/agent 
+    - uri:
+        prefix: /v1/api/bareme 
+    - uri:
+        prefix: /v1/api/comite 
+    - uri:
+        prefix: /v1/api/dossier-etat 
+    - uri:
+        prefix: /v1/api/lieu-accidents 
+    - uri:
+        prefix: /v1/api/maladie-pros 
+    - uri:
+        prefix: /v1/api/nature 
+    - uri:
+        prefix: /v1/api/pres-avis 
+    - uri:
+        prefix: /v1/api/prestataire 
+    - uri:
+        prefix: /v1/api/siege-lesion     
+    - uri:
+        prefix: /v1/api/type 
+    - uri:
+        prefix: /v1/api/volets 
+    - uri:
+        prefix: /v1/api/avis-comite 
+    - uri:
+        prefix: /v1/api/bordereau 
+    - uri:
+        prefix: /v1/api/carnet 
+    - uri:
+        prefix: /v1/api/certificat 
+    - uri:
+        prefix: /v1/api/declaration-rp 
+    - uri:
+        prefix: /v1/api/dossier-medical 
+    - uri:
+        prefix: /v1/api/droit-risquepro 
+    - uri:
+        prefix: /v1/api/liquidation-droits-rp 
+    - uri:
+        prefix: /v1/api/pres-prestataire    
+    route:
+    - destination:
+        host: service-rp.default.svc.cluster.local
+        port:
+          number: 8084

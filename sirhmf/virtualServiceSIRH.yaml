@@ -1,0 +1,47 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: service-sirh
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - mygateway
+  http:
+  - match:
+    - uri:
+        prefix: /v1/api/abscence 
+    - uri:
+        prefix: /v1/api/conge 
+    - uri:
+        prefix: /v1/api/avancement
+    - uri:
+        prefix: /v1/api/notation
+    - uri:
+        prefix: /v1/api/attribut 
+    - uri:
+        prefix: /v1/api/critere 
+    - uri:
+        prefix: /v1/api/categories 
+    - uri:
+        prefix: /v1/api/fonctions 
+    - uri:
+        prefix: /v1/api/grades 
+    - uri:
+        prefix: /v1/api/param-notes 
+    - uri:
+        prefix: /v1/api/professions 
+    - uri:
+        prefix: /v1/api/responsabilites 
+    - uri:
+        prefix: /v1/api/statuts 
+    - uri:
+        prefix: /v1/api/type
+    - uri:
+        prefix: /v1/api/employes       
+      
+    route:
+    - destination:
+        host: service-sirh.default.svc.cluster.local
+        port:
+          number: 9099

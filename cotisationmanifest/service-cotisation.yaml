@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-cotisation
+spec:
+  selector:
+    app: cotisation-backend
+    type: backend
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
+      name: http-backend
+    

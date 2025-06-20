@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: gestionstock-backend
+spec:
+  hosts:
+  - service-backend.default.svc.cluster.local
+  gateways:
+  - gestionstock-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /api
+    route:
+    - destination:
+        host: service-backend.default.svc.cluster.local
+        port:
+          number: 8080

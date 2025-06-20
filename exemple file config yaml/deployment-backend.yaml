@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gestionstock-back-deployment
+  labels:
+    app: gestionstock-back-deployment
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: gestionstock-backend
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: gestionstock-backend
+        type: backend
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: gestionstock-backend
+          image: synaptek/gestion-stock:0.0.1-SNAPSHOT
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "256m"
+            limits:
+              memory: "256Mi"
+              cpu: "528m"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 8080
+              protocol: TCP
+          imagePullPolicy: Always
+          env:
+            - name: MYSQLHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-instance-conn-cm
+                  key: default.mysql-instance-host
+            - name: MYSQLPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-instance-conn-cm
+                  key: default.mysql-instance-port
+            - name: MYSQLUSER
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-instance-conn-cm
+                  key: default.mysql-instance-user
+            - name: MYSQLPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-instance-password
+                  key: password
+      

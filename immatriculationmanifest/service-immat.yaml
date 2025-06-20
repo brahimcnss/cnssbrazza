@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-immatriculation
+spec:
+  selector:
+    app: immatriculation-backend
+    type: backend
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 1996
+      targetPort: 1996
+      name: http-backend
+    

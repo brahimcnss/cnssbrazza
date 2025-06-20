@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-rec
+spec:
+  selector:
+    app: rec-backend
+    type: backend
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 9098
+      targetPort: 9098
+      name: http-backend
+    

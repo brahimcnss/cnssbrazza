@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-pp
+spec:
+  selector:
+    app: pp-backend
+    type: backend
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 8086
+      targetPort: 8086
+      name: http-backend
+    

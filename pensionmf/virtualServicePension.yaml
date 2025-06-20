@@ -1,0 +1,28 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: pension-backend
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - mygateway
+  http:
+  - match:
+    - uri:
+        prefix: /v1/api/controles 
+    - uri:
+        prefix: /v1/api/age 
+    - uri:
+        prefix: /v1/api/dossier
+    - uri:
+        prefix: /v1/api/localisation
+    - uri:
+        prefix: /v1/api/mode
+    - uri:
+        prefix: /v1/api/salaire     
+    route:
+    - destination:
+        host: service-pension.default.svc.cluster.local
+        port:
+          number: 8083

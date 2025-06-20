@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-register
+spec:
+  selector:
+    app: registry-backend
+    type: backend
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 8761
+      targetPort: 8761 
+      name: http-front
+      nodePort: 32101
+
+
+    
+      
+      
+      
+      
+      
+      
+      
+      
+   
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+   
+
+      
+     
+      
+      
+      
+   
+   

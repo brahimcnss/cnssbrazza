@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  default.oracle-instance-host-pf: 192.168.2.60
+  default.oracle-instance-port-pf: "1521"
+  default.oracle-instance-user-pf: prestationsfamiliales
+kind: ConfigMap
+metadata:
+  name: oracle-config-pf
+  namespace: default

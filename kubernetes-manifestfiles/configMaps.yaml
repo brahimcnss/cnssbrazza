@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  default.postgres-instance-host: 158.69.27.218
+  default.postgres-instance-port: "5432"
+  default.postgres-instance-user: sirhdb
+kind: ConfigMap
+metadata:
+
+  name: postgres-config
+  namespace: default

@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pension-backend
+  labels:
+    app: pension-backend
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: pension-backend
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: pension-backend
+        type: backend
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: pension-backend
+          image: brims15/pension:0.0.1-SNAPSHOT
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "2"
+              #---------------------------------#
+          ports:
+            - name: api
+              containerPort: 8083
+              protocol: TCP
+          imagePullPolicy: Always
+          env:
+            - name: ORACLEHOSTPENSION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pension
+                  key: default.oracle-instance-host-pension
+            - name: ORACLEPORTPENSION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pension
+                  key: default.oracle-instance-port-pension
+            - name: ORACLEUSERPENSION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-pension
+                  key: default.oracle-instance-user-pension
+            - name: ORACLEPASSWORDPENSION
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-pension
+                  key: password
+            - name: ORACLEHOSTFO
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-fo
+                  key: default.oracle-instance-host-fo
+            - name: ORACLEPORTFO
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-fo
+                  key: default.oracle-instance-port-fo
+            - name: ORACLEUSERFO
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-fo
+                  key: default.oracle-instance-user-fo
+            - name: ORACLEPASSWORDFO
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-fo
+                  key: password
+            - name: ORACLEHOSTIMM
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-imm
+                  key: default.oracle-instance-host-imm
+            - name: ORACLEPORTIMM
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-imm
+                  key: default.oracle-instance-port-imm
+            - name: ORACLEUSERIMM
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-imm
+                  key: default.oracle-instance-user-imm
+            - name: ORACLEPASSWORDIMM
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-imm
+                  key: password      
+            
+            - name: ORACLEHOSTTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-host-tracaction
+            - name: ORACLEPORTTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-port-tracaction
+            - name: ORACLEUSERTRACACTION
+              valueFrom:
+                configMapKeyRef:
+                  name: oracle-config-tracaction
+                  key: default.oracle-instance-user-tracaction
+            - name: ORACLEPASSWORDTRACACTION
+              valueFrom:
+                secretKeyRef:
+                  name: oracle-instance-password-tracaction
+                  key: password
+      

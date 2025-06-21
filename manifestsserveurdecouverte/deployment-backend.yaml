@@ -20,10 +20,10 @@ spec:
         type: backend
     spec:
       imagePullSecrets:
-       - name: regcred
+       - name: regcred  # Secret Kubernetes pour le registre privé
       containers:
         - name: registry-backend
-          image: brims15/serveurdecouverte:0.0.1-SNAPSHOT
+          image: 192.168.2.225:5000/serveurdecouverte:0.0.1-SNAPSHOT  # Image depuis votre registre privé
           securityContext:
             capabilities:
               add:
@@ -36,12 +36,8 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "2"
-              #---------------------------------#
           ports:
             - name: api
               containerPort: 8761
               protocol: TCP
           imagePullPolicy: Always
-          
-            
-      

@@ -23,7 +23,7 @@ spec:
        - name: regcred
       containers:
         - name: paramglob-backend
-          image: brims15/parametrageglobal:0.0.1-SNAPSHOT
+          image: 192.168.2.225:5000/parametrageglobal:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
               add:

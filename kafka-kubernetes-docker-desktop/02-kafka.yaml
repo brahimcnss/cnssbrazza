@@ -39,7 +39,7 @@ spec:
           value: PLAINTEXT://kafka-broker:29092
         - name: KAFKA_ADVERTISED_LISTENERS
           value: PLAINTEXT://kafka-broker:29092
-        image: wurstmeister/kafka
+        image: 192.168.2.225:5000/wurstmeister/kafka
         imagePullPolicy: IfNotPresent
         name: kafka-broker
         ports:

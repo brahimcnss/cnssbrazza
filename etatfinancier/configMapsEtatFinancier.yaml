@@ -1,6 +1,6 @@
 apiVersion: v1
 data:
-  default.oracle-instance-host-etatfinancier: 192.168.2.60
+  default.oracle-instance-host-etatfinancier: 192.168.2.266
   default.oracle-instance-port-etatfinancier: "1521"
   default.oracle-instance-user-etatfinancier: etatfinancier
 kind: ConfigMap

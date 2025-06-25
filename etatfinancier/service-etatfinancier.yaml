@@ -6,10 +6,11 @@ spec:
   selector:
     app: etatfinancier-backend
     type: backend
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 1999
       targetPort: 1999
       name: http-backend
+      nodePort: 32119
     

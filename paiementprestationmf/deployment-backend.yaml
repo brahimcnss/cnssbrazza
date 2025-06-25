@@ -19,6 +19,8 @@ spec:
         app: pp-backend
         type: backend
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker1erpnode
       imagePullSecrets:
        - name: regcred
       containers:

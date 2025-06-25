@@ -6,10 +6,11 @@ spec:
   selector:
     app: rp-backend
     type: backend
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 8084
       targetPort: 8084
       name: http-backend
+      nodePort: 32225
     

@@ -25,7 +25,7 @@ spec:
        - name: regcred
       containers:
         - name: front-tb
-          image: brims15/front-tableau-de-bord:1
+          image: 192.168.2.225:5000/fronttableaudebord:1
           securityContext:
             capabilities:
               add:

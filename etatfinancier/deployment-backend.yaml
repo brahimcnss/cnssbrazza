@@ -19,11 +19,13 @@ spec:
         app: etatfinancier-backend
         type: backend
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker1erpnode
       imagePullSecrets:
        - name: regcred
       containers:
         - name: etatfinancier-backend
-          image: brims15/etatfinancier:0.0.1-SNAPSHOT
+          image: 192.168.2.225:5000/etatfinancier:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
               add:
@@ -31,7 +33,7 @@ spec:
                 - NET_RAW
           resources:
             requests:
-              memory: "128Mi"
+              memory: "512Mi"
               cpu: "100m"
             limits:
               memory: "1Gi"

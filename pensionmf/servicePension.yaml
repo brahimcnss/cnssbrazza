@@ -6,10 +6,11 @@ spec:
   selector:
     app: pension-backend
     type: backend
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 8083
       targetPort: 8083
       name: http-backend
+      nodePort: 32123
     

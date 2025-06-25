@@ -19,6 +19,8 @@ spec:
         app: pension-backend
         type: backend
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker1erpnode
       imagePullSecrets:
        - name: regcred
       containers:
@@ -31,7 +33,7 @@ spec:
                 - NET_RAW
           resources:
             requests:
-              memory: "128Mi"
+              memory: "256Mi"
               cpu: "100m"
             limits:
               memory: "1Gi"

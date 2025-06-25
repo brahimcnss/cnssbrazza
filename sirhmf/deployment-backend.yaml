@@ -19,11 +19,13 @@ spec:
         app: sirh-backend
         type: backend
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker1erpnode
       imagePullSecrets:
        - name: regcred
       containers:
         - name: sirh-backend
-          image: brims15/sirh:0.0.1-SNAPSHOT
+          image: 192.168.2.225:5000/sirh:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
               add:

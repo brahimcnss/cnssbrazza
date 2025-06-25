@@ -6,10 +6,11 @@ spec:
   selector:
     app: tresorerie-backend
     type: backend
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 8094
       targetPort: 8094
       name: http-backend
+      nodePort: 32114
     

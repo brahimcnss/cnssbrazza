@@ -20,12 +20,12 @@ spec:
         type: front
     spec:
       nodeSelector:
-        kubernetes.io/hostname: workernode2
+        kubernetes.io/hostname: worker2erpnode
       imagePullSecrets:
        - name: regcred
       containers:
         - name: asi-front
-          image: brims15/frontasi:1
+          image: 192.168.2.225:5000/frontasi:1
           securityContext:
             capabilities:
               add:

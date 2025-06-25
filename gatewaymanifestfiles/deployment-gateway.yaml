@@ -19,12 +19,13 @@ spec:
         app: gateway
         type: backend
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker1erpnode
       imagePullSecrets:
-       - name: regcred 
-      
+       - name: regcred      
       containers:
         - name: gateway
-          image: 192.168.2.225:5000/serveurdecouverte:0.0.1-SNAPSHOT  # Image depuis votre registre privé
+          image: 192.168.2.225:5000/gateway:0.0.1-SNAPSHOT  # Image depuis votre registre privé
           securityContext:
             capabilities:
               add:

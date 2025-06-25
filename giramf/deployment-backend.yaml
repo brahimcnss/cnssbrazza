@@ -19,11 +19,13 @@ spec:
         app: gira-backend
         type: backend
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker1erpnode
       imagePullSecrets:
        - name: regcred
       containers:
         - name: gira-backend
-          image: brims15/gestionimmeublerapport:0.0.1-SNAPSHOT
+          image: 192.168.2.225:5000/gira:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
               add:

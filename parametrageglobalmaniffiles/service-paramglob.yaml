@@ -6,13 +6,13 @@ spec:
   selector:
     app: paramglob-backend
     type: backend
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 1995
       targetPort: 1995
       name: http-backend
-      #nodePort: 32100
+      nodePort: 32105
       
       
       

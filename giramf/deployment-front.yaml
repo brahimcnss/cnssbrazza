@@ -18,12 +18,12 @@ spec:
         type: front
     spec:
       nodeSelector:
-        kubernetes.io/hostname: workernode1
+        kubernetes.io/hostname: worker2erpnode
       imagePullSecrets:
        - name: regcred
       containers:
         - name: gira-front
-          image: brims15/front-gira:1
+          image: 192.168.2.225:5000/frontgira:1
           securityContext:
             capabilities:
               add:

@@ -19,11 +19,13 @@ spec:
         app: fo-backend
         type: backend
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker1erpnode
       imagePullSecrets:
        - name: regcred
       containers:
         - name: fo-backend
-          image: brims15/frontoffice:0.0.1-SNAPSHOT
+          image: 192.168.2.225:5000/fontoffice:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
               add:
@@ -31,8 +33,8 @@ spec:
                 - NET_RAW
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "100m"
+              memory: "256Mi"
+              cpu: "200m"
             limits:
               memory: "1Gi"
               cpu: "2"

@@ -23,7 +23,7 @@ spec:
        - name: regcred
       containers:
         - name: mandat-backend
-          image: brims15/mandat:0.0.1-SNAPSHOT
+          image: 192.168.2.225:5000/mandat:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
               add:

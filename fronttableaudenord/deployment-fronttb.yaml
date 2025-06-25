@@ -19,6 +19,8 @@ spec:
         app: front-tb    
         type: front
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker2erpnode
       imagePullSecrets:
        - name: regcred
       containers:

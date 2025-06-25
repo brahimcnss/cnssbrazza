@@ -6,10 +6,11 @@ spec:
   selector:
     app: rec-backend
     type: backend
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 9098
       targetPort: 9098
       name: http-backend
+      nodePort: 32107
     

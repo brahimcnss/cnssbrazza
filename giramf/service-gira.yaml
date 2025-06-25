@@ -6,10 +6,11 @@ spec:
   selector:
     app: gira-backend
     type: backend
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 8989
       targetPort: 8989
       name: http-backend
+      nodePort: 32117
     

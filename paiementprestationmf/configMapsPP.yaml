@@ -1,6 +1,6 @@
 apiVersion: v1
 data:
-  default.oracle-instance-host-pp: 192.168.2.60
+  default.oracle-instance-host-pp: 192.168.2.226
   default.oracle-instance-port-pp: "1521"
   default.oracle-instance-user-pp: paiementprestation
 kind: ConfigMap

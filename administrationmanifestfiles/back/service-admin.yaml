@@ -6,12 +6,13 @@ spec:
   selector:
     app: admin-backend
     type: backend
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 1994
       targetPort: 1994
       name: http-backend
+      nodePort: 32104
       
       
       

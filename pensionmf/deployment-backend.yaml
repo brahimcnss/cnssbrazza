@@ -23,7 +23,7 @@ spec:
        - name: regcred
       containers:
         - name: pension-backend
-          image: brims15/pension:0.0.1-SNAPSHOT
+          image: 192.168.2.225:5000/pension:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
               add:

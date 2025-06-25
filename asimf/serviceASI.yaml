@@ -6,10 +6,11 @@ spec:
   selector:
     app: asi-backend
     type: backend
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 19099
       targetPort: 19099
       name: http-backend
+      nodePort: 32118
     

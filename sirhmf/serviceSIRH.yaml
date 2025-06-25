@@ -6,10 +6,11 @@ spec:
   selector:
     app: sirh-backend
     type: backend
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 9099
       targetPort: 9099
       name: http-backend
+      nodePort: 32106
     

@@ -6,10 +6,11 @@ spec:
   selector:
     app: comptabilite-backend
     type: backend
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 8093
       targetPort: 8093
       name: http-backend
+      nodePort: 32115
     

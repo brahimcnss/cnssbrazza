@@ -20,12 +20,12 @@ spec:
         type: front
     spec:
       nodeSelector:
-        kubernetes.io/hostname: workernode2
+        kubernetes.io/hostname: worker2erpnode
       imagePullSecrets:
        - name: regcred
       containers:
         - name: front-finance
-          image: brims15/front-gestion-finance:1
+          image: 192.168.2.225:5000/frontfinance:2
           securityContext:
             capabilities:
               add:
@@ -33,7 +33,7 @@ spec:
                 - NET_RAW      
           resources:
             requests:
-              memory: "1024Mi"
+              memory: "2048Mi"
               cpu: "300m"
             limits:
               memory: "3Gi"

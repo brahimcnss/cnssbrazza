@@ -19,11 +19,13 @@ spec:
         app: rec-backend
         type: backend
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker1erpnode
       imagePullSecrets:
        - name: regcred
       containers:
         - name: rec-backend
-          image: brims15/recrutement:0.0.1-SNAPSHOT
+          image: 192.168.2.225:5000/recrutement:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
               add:

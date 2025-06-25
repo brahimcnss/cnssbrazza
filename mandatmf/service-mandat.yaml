@@ -6,10 +6,12 @@ spec:
   selector:
     app: mandat-backend
     type: backend
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 8099
       targetPort: 8099
       name: http-backend
+      nodePort: 32116
+      
     

@@ -25,7 +25,7 @@ spec:
        - name: regcred
       containers:
         - name: pf-backend
-          image: 192.168.2.225:5000/prestationsfamilliales:0.0.1-SNAPSHOT
+          image: 192.168.2.225:5000/prestationfamiliales:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
               add:

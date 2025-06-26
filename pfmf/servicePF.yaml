@@ -12,5 +12,5 @@ spec:
       port: 8085
       targetPort: 8085
       name: http-backend
-      nodePort: 32121
+      nodePort: 32128
     

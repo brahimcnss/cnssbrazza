@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: kafka-broker
-          image: 192.168.2.225:5000/wurstmeister/kafka
+          image: 192.168.2.19:5000/wurstmeister/kafka
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 29092

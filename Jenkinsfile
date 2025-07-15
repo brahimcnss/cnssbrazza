@@ -16,9 +16,19 @@ node {
                         sh "cat ./administrationmanifestfiles/front/deployment-front.yaml" //affricher le contenu
                         sh "sed -i 's+192.168.2.19:5000/frontadmine.*+192.168.2.19:5000/frontadmine:${DOCKERTAG}+g' ./administrationmanifestfiles/front/deployment-front.yaml"                       
                         sh "cat ./administrationmanifestfiles/front/deployment-front.yaml"
-                        sh "git add ." 
-                        sh "git commit -m 'Done by Jenkins Job changemanifest: ${env.BUILD_NUMBER}'" 
-                        sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/cnssbrazza.git HEAD:preprod"
+                        script {
+                        def changes = sh(script: "git status --porcelain", returnStdout: true).trim()
+                        if (changes) {
+                            sh "git commit -m 'Done by Jenkins Job changemanifest: ${env.BUILD_NUMBER}'"
+                            sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/cnssbrazza.git HEAD:preprod"
+                        } else {
+                            echo "✅ Aucun changement détecté dans les manifests. Pas de commit nécessaire."
+                        }
+                        }
+
+                        //sh "git add ." 
+                        //sh "git commit -m 'Done by Jenkins Job changemanifest: ${env.BUILD_NUMBER}'" 
+                        //sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/cnssbrazza.git HEAD:preprod"
                        
                         
                         

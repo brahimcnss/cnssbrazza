@@ -12,7 +12,7 @@ node {
                          //def encodedPassword = URLEncoder.encode("$GIT_PASSWORD",'UTF-8')
                         sh "git config user.email brahimcnss2025@gmail.com"
                         sh "git config user.name brahimcnss"
-                        //sh "git switch master"
+                        //sh "git switch master "
                         sh "cat ./administrationmanifestfiles/front/deployment-front.yaml" //affricher le contenu
                         sh "sed -i 's+192.168.2.19:5000/frontadmine.*+192.168.2.19:5000/frontadmine:${DOCKERTAG}+g' ./administrationmanifestfiles/front/deployment-front.yaml"                       
                         sh "cat ./administrationmanifestfiles/front/deployment-front.yaml"

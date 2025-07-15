@@ -25,7 +25,7 @@ spec:
        - name: regcred      
       containers:
         - name: admin-front
-          image: 192.168.2.19:5000/frontadmine:13
+          image: 192.168.2.19:5000/frontadmine:14
           resources:
             requests:
               memory: "700Mi"

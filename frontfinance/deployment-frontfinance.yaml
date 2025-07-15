@@ -20,12 +20,12 @@ spec:
         type: front
     spec:
       nodeSelector:
-        kubernetes.io/hostname: worker2erpnode
+        kubernetes.io/hostname: workernode2
       imagePullSecrets:
        - name: regcred
       containers:
         - name: front-finance
-          image: 192.168.2.225:5000/frontfinance:2
+          image: 192.168.2.19:5000/frontfinance:1
           securityContext:
             capabilities:
               add:

@@ -1,6 +1,6 @@
 apiVersion: v1
 data:
-  default.oracle-instance-host-mandat: 192.168.2.226
+  default.oracle-instance-host-mandat: 192.168.2.60
   default.oracle-instance-port-mandat: "1521"
   default.oracle-instance-user-mandat: mandat
 kind: ConfigMap

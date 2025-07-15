@@ -19,11 +19,13 @@ spec:
         app: mandat-backend
         type: backend
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: workernode1
       imagePullSecrets:
        - name: regcred
       containers:
         - name: mandat-backend
-          image: 192.168.2.225:5000/mandat:0.0.1-SNAPSHOT
+          image: 192.168.2.19:5000/mandat:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
               add:

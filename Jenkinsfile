@@ -16,6 +16,7 @@ node {
                         sh "cat ./administrationmanifestfiles/front/deployment-front.yaml" //affricher le contenu
                         sh "sed -i 's+192.168.2.19:5000/frontadmine.*+192.168.2.19:5000/frontadmine:${DOCKERTAG}+g' ./administrationmanifestfiles/front/deployment-front.yaml"                       
                         sh "cat ./administrationmanifestfiles/front/deployment-front.yaml"
+                        sh "git add ." 
                         script {
                         def changes = sh(script: "git status --porcelain", returnStdout: true).trim()
                         if (changes) {

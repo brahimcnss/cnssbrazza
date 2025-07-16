@@ -5,6 +5,8 @@ metadata:
   labels:
     app: admin-front
     type: front
+  annotations:
+        redeploy-timestamp: "initial"
 spec:
   selector:
     matchLabels:

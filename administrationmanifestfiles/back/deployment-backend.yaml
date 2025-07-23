@@ -46,6 +46,8 @@ spec:
           imagePullPolicy: Always      
  
           env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms512m -Xmx1800m"
             - name: ORACLEHOSTADMIN
               valueFrom:
                 configMapKeyRef:

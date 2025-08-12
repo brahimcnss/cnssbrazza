@@ -1,0 +1,103 @@
+Étape 1 : Pull les images sur une machine avec Internet
+
+sudo docker pull kubernetesui/dashboard:v2.7.0
+sudo docker pull kubernetesui/metrics-scraper:v1.0.8
+sudo docker pull registry.k8s.io/metrics-server/metrics-server:v0.7.0
+
+
+📦 Étape 2 : Taguer avec ton registre privé📦 Étape 2 : Taguer avec ton registre privé
+
+sudo docker tag kubernetesui/dashboard:v2.7.0 192.168.2.19:5000/kubernetes-dashboard
+sudo docker tag kubernetesui/metrics-scraper:v1.0.8 192.168.2.19:5000/metrics-scraper
+sudo docker tag registry.k8s.io/metrics-server/metrics-server:v0.7.0 192.168.2.19:5000/metrics-server
+
+
+🚀 Étape 3 : Pusher dans ton registre local
+
+sudo docker push 192.168.2.19:5000/kubernetes-dashboard
+sudo docker push 192.168.2.19:5000/metrics-scraper
+sudo docker push 192.168.2.19:5000/metrics-server
+
+
+🛠️ Étape 4 : Modifier les manifests YAML
+
+Dans les fichiers :
+
+dashboard.yaml
+
+metrics-server.yaml
+
+🔁 Remplace les images :
+
+1# dashboard.yaml
+containers:
+- name: kubernetes-dashboard
+  image: 192.168.2.19:5000/kubernetes-dashboard
+
+# scraper
+- name: metrics-scraper
+  image: 192.168.2.19:5000/metrics-scraper
+
+2# metrics-server.yaml
+containers:
+- name: metrics-server
+  image: 192.168.2.19:5000/metrics-server
+  args:
+    - --kubelet-insecure-tls
+	
+📥 Étape 5 : Déployer depuis les fichiers YAML modifiés
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml" -OutFile "dashboard.yaml"
+Invoke-WebRequest -Uri "https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml" -OutFile "metrics-server.yaml"
+
+
+
+
+
+kubectl apply -f dashboard.yaml
+kubectl apply -f metrics-server.yaml
+kubectl apply -f dashboard-admin.yaml
+
+
+
+✅ Correction à appliquer une fois fini ajjouter 
+Modifie ta section comme suit dans metrics-server.yaml : - --kubelet-insecure-tls  dans le file metricsserver puis supprimer et redeployer a nouveau 
+
+yaml
+Copier
+Modifier
+spec:
+  containers:
+  - name: metrics-server
+    image: 192.168.2.19:5000/metrics-server:latest
+    args:
+      - --cert-dir=/tmp
+      - --secure-port=10250
+      - --kubelet-insecure-tls                           # ← ajoute ceci
+      - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+      - --kubelet-use-node-status-port
+      - --metric-resolution=15s
+	  
+	  
+	  
+	  
+	  
+	  Pour le port acceder on a changer le service dans dashboard.yaml cluster ip en nodeport 
+	  
+	  kind: Service
+metadata:
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+spec:
+  type: NodePort   # <== Change ici
+  ports:
+    - port: 443
+      targetPort: 8443
+      nodePort: 32000  # <== Ajoute une NodePort libre
+  selector:
+    k8s-app: kubernetes-dashboard
+
+
+
+
+
+

@@ -25,7 +25,7 @@ spec:
        - name: regcred
       containers:
         - name: sirh-backend
-          image: 192.168.2.19:5000/sirh:0.0.1-SNAPSHOT
+          image: 192.168.2.19:5000/backsirh:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
               add:

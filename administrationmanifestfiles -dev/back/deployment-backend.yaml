@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: admin-backend
+  name: admin-backend-dev
   labels:
-    app: admin-backend
+    app: admin-backend-dev
     type: backend
 spec:
   selector:
     matchLabels:
-      app: admin-backend
+      app: admin-backend-dev
       type: backend
   replicas: 1
   strategy:
@@ -16,7 +16,7 @@ spec:
   template:
     metadata:
       labels:
-        app: admin-backend
+        app: admin-backend-dev
         type: backend
     spec:
       nodeSelector:
@@ -24,7 +24,7 @@ spec:
       imagePullSecrets:
         - name: regcred      
       containers:
-        - name: admin-backend
+        - name: admin-backend-dev
           image: 192.168.2.19:5000/administration2:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
@@ -41,32 +41,32 @@ spec:
               #---------------------------------#
           ports:
             - name: api
-              containerPort: 1994
+              containerPort: 11994
               protocol: TCP
           imagePullPolicy: Always      
  
           env:
             - name: JAVA_TOOL_OPTIONS
               value: "-Xms512m -Xmx1800m"
-            - name: ORACLEHOSTADMIN
+            - name: ORACLEHOSTADMIN2
               valueFrom:
                 configMapKeyRef:
-                  name: oracle-config-admin
-                  key: default.oracle-instance-host-admin
-            - name: ORACLEPORTADMIN
+                  name: oracle-config-admin-dev
+                  key: default.oracle-instance-host-admin-dev
+            - name: ORACLEPORTADMIN2
               valueFrom:
                 configMapKeyRef:
-                  name: oracle-config-admin
-                  key: default.oracle-instance-port-admin
-            - name: ORACLEUSERADMIN
+                  name: oracle-config-admin-dev
+                  key: default.oracle-instance-port-admin-dev
+            - name: ORACLEUSERADMIN2
               valueFrom:
                 configMapKeyRef:
-                  name: oracle-config-admin
-                  key: default.oracle-instance-user-admin
-            - name: ORACLEPASSWORDADMIN
+                  name: oracle-config-admin-dev
+                  key: default.oracle-instance-user-admin-dev
+            - name: ORACLEPASSWORDADMIN2
               valueFrom:
                 secretKeyRef:
-                  name: oracle-instance-password-admin
+                  name: oracle-instance-password-admin-dev
                   key: password
             
      

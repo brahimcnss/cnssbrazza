@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: registry-backend-dev
+  labels:
+    app: registry-backend-dev
+    type: backend
+spec:
+  selector:
+    matchLabels:
+      app: registry-backend-dev
+      type: backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: registry-backend-dev
+        type: backend
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: workernode2  
+      imagePullSecrets:
+       - name: regcred  # Secret Kubernetes pour le registre privés
+      containers:
+        - name: registry-backend-dev
+          image: 192.168.2.19:5000/serveurdecouverte2:0.0.1-SNAPSHOT  # Image depuis votre registre privé
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "300m"
+            limits:
+              memory: "1Gi"
+              cpu: "2"
+          ports:
+            - name: api
+              containerPort: 18761
+              protocol: TCP
+          imagePullPolicy: Always

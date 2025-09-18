@@ -1,0 +1,16 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: monippool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.2.37-192.168.2.38
+
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: monl2adv
+  namespace: metallb-system
+

@@ -1,16 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: admin-front
+  name: admin-front-dev
   labels:
-    app: admin-front
+    app: admin-front-dev
     type: front
-  annotations:
-        redeploy-timestamp: "initial"
+  
 spec:
   selector:
     matchLabels:
-      app: admin-front
+      app: admin-front-dev
       type: front
   replicas: 1
   strategy:
@@ -18,7 +17,7 @@ spec:
   template:
     metadata:
       labels:
-        app: admin-front    
+        app: admin-front-dev    
         type: front
     spec:
       nodeSelector:
@@ -26,8 +25,8 @@ spec:
       imagePullSecrets:
        - name: regcred      
       containers:
-        - name: admin-front
-          image: 192.168.2.19:5000/frontadmine:44
+        - name: admin-front-dev
+          image: 192.168.2.19:5000/frontadmineprod:1
           resources:
             requests:
               memory: "700Mi"
@@ -41,7 +40,6 @@ spec:
               containerPort: 80
               protocol: TCP
           imagePullPolicy: Always
-        
          
           
           

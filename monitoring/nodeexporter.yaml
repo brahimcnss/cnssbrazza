@@ -1,14 +1,8 @@
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: node-exporter
-  namespace: kube-system
----
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: node-exporter
-  namespace: kube-system
+  namespace: monitoring
   labels:
     app: node-exporter
 spec:
@@ -20,42 +14,22 @@ spec:
       labels:
         app: node-exporter
     spec:
-      serviceAccountName: node-exporter
+     # hostPID: true
+     # hostNetwork: true
       containers:
         - name: node-exporter
-          image: 192.168.2.19:5000/node-exporter:latest
-          args:
-            - "--path.procfs=/host/proc"
-            - "--path.sysfs=/host/sys"
-            - "--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($|/)"
+          image: prom/node-exporter:v1.5.0
           ports:
-            - name: metrics
-              containerPort: 9100
-          volumeMounts:
-            - name: proc
-              mountPath: /host/proc
-              readOnly: true
-            - name: sys
-              mountPath: /host/sys
-              readOnly: true
-      hostNetwork: true
-      hostPID: true
-      tolerations:
-        - key: node-role.kubernetes.io/master
-          effect: NoSchedule
-      volumes:
-        - name: proc
-          hostPath:
-            path: /proc
-        - name: sys
-          hostPath:
-            path: /sys
+            - containerPort: 9100
+              name: metrics
+          securityContext:
+            privileged: true
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: node-exporter
-  namespace: kube-system
+  namespace: monitoring
   labels:
     app: node-exporter
 spec:
@@ -65,4 +39,4 @@ spec:
     - name: metrics
       port: 9100
       targetPort: 9100
-  type: ClusterIP
+  clusterIP: None

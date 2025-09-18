@@ -19,11 +19,13 @@ spec:
         app: dmz-backend
         type: backend
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker1erpnode
       imagePullSecrets:
        - name: regcred
       containers:
         - name: dmz-backend
-          image: brims15/serverdmz:0.0.1-SNAPSHOT
+          image: 192.168.2.225:5000/dmz:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
               add:
@@ -31,7 +33,7 @@ spec:
                 - NET_RAW
           resources:
             requests:
-              memory: "128Mi"
+              memory: "256Mi"
               cpu: "100m"
             limits:
               memory: "1Gi"

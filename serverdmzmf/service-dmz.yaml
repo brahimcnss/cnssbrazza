@@ -6,10 +6,11 @@ spec:
   selector:
     app: dmz-backend
     type: backend
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 8520
       targetPort: 8520
       name: http-backend
+      nodePort: 32224
     

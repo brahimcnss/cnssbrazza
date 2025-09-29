@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: admin-front
+  name: administration-front
   labels:
-    app: admin-front
+    app: administration-front
     type: front
 spec:
   selector:
     matchLabels:
-      app: admin-front
+      app: administration-front
       type: front
   replicas: 1
   strategy:
@@ -16,16 +16,16 @@ spec:
   template:
     metadata:
       labels:
-        app: admin-front    
+        app: administration-front    
         type: front
     spec:
       nodeSelector:
-        kubernetes.io/hostname: worker2erpnode
+        kubernetes.io/hostname: worker1erpprod
       imagePullSecrets:
        - name: regcred      
       containers:
-        - name: admin-front
-          image: 192.168.2.225:5000/frontadmin:2       
+        - name: administration-front
+          image: 192.168.2.234:5000/frontadmin:2       
           resources:
             requests:
               memory: "700Mi"

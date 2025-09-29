@@ -5,7 +5,7 @@ metadata:
   name: service-admin-front 
 spec:
   selector:
-    app: admin-front
+    app: administration-front
     type: front
   type: NodePort
   ports:

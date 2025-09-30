@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: microservices-monitor
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      monitor: "true"   # 👈 tous les services avec ce label seront scrappés
+  namespaceSelector:
+    any: true          # 👈 surveille même dans d’autres namespaces
+  endpoints:
+    - port: http-metrics
+      path: /actuator/prometheus
+      interval: 15s

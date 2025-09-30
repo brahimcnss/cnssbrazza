@@ -25,7 +25,7 @@ spec:
         - name: regcred      
       containers:
         - name: admin-backend
-          image: 192.168.2.19:5000/administration:0.0.1-SNAPSHOT
+          image: 192.168.2.19:5000/administration2:0.0.1-SNAPSHOT
           securityContext:
             capabilities:
               add:

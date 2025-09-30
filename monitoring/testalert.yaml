@@ -1,0 +1,8 @@
+- alert: AlwaysFiring
+  expr: vector(1)
+  for: 1m
+  labels:
+    severity: info
+  annotations:
+    summary: "Alerte de test (AlwaysFiring)"
+    description: "Cette alerte est toujours déclenchée pour tester la chaîne Prometheus → Alertmanager → Email"

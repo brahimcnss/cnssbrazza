@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak-external
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: 192.168.2.27   # IP de la machine où tourne Keycloak
+  ports:
+    - port: 80
+      targetPort: 8080

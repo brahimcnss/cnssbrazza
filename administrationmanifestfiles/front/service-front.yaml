@@ -7,13 +7,13 @@ spec:
   selector:
     app: admin-front
     type: front
-  type: NodePort
+  type: ClusterIP
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
       name: http-front
-      nodePort: 31100
+     # nodePort: 31100
 ---
       
       

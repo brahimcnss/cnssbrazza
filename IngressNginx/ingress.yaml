@@ -3,23 +3,9 @@ kind: Ingress
 metadata:
   name: multi-app-ingress
   namespace: default
- 
-  
 spec:
   ingressClassName: nginx
   rules:
-
-  - host: frontadmin.cnss.cg
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: service-admin-front 
-            port:
-              number: 80  
-      
   - host: register.cnss.cg
     http:
       paths:
@@ -30,7 +16,6 @@ spec:
             name: service-register
             port:
               number: 8761
-  
   - host: gateway.cnss.cg
     http:
       paths:
@@ -41,14 +26,44 @@ spec:
             name: service-gateway
             port:
               number: 8888
-      
-      - path: /ADMINISTRATION
+  - host: admin.cnss.cg
+    http:
+      paths:
+      - path: /
         pathType: Prefix
         backend:
-          service:
-            name: service-gateway
-            port: 
+          service: 
+            name: service-admin
+            port:
               number: 1994
+  - host: paramglobal.cnss.cg
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: parametrageglobal
+            port:
+              number: 1995
+  - host: frontadmin.cnss.cg
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: service-admin-front
+            port:
+              number: 80
+  
+
+ 
+      
+  
+ 
+      
+    
 
   
 
